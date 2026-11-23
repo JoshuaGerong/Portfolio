@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-BARYO | Barangay Lapasan Resident Portal</title>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-page: #070d19;
+      --bg-surface: #0f172a;
+      --bg-card: #131c31;
+      --bg-input: #0b1221;
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-focus: #0ea5e9;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --sky: #38bdf8;
+      --emerald: #059669;
+      --emerald-hover: #047857;
+      --amber: #d97706;
+      --danger: #dc2626;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ================= AUTH LAYOUT ================= */
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.12), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.08), transparent 45%),
+        var(--bg-page);
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 1040px;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 1.75rem;
+      align-items: stretch;
+    }
+
+    .auth-brand-card,
+    .auth-form-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    .auth-brand-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-badge {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #16223b, #0c1426);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.18);
+    }
+
+    .logo-badge.small {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      padding: 0.45rem;
+    }
+
+    .logo-badge svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-text-group h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+    }
+
+    .logo-sub-en {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .logo-sub-brgy {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--sky);
+      margin-top: 4px;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.95rem;
+      padding: 1rem 1.1rem;
+      background: rgba(11, 18, 33, 0.72);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .icon-blue {
+      background: rgba(14, 165, 233, 0.14);
+      color: var(--sky);
+    }
+
+    .icon-emerald {
+      background: rgba(16, 185, 129, 0.14);
+      color: #34d399;
+    }
+
+    .icon-amber {
+      background: rgba(245, 158, 11, 0.14);
+      color: #fbbf24;
+    }
+
+    .feature-copy strong {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .feature-copy span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Auth Tabs & Forms */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg-input);
+      padding: 0.35rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.75rem;
+    }
+
+    .auth-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.72rem 1rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab.active {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.02em;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.78rem 0.95rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.16);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon svg {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .input-with-icon input {
+      padding-left: 2.65rem;
+    }
+
+    .form-row-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.84rem;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .text-link {
+      color: var(--sky);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    .gender-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .gender-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.72rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+    }
+
+    .gender-btn.active {
+      border-color: var(--sky);
+      background: rgba(14, 165, 233, 0.12);
+      color: #ffffff;
+    }
+
+    /* ================= BUTTONS ================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border: none;
+      border-radius: 10px;
+      padding: 0.82rem 1.3rem;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-emerald:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(51, 65, 85, 0.85);
+      color: #ffffff;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    /* ================= PORTAL SHELL & SIDEBAR ================= */
+    .portal-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    .sidebar {
+      width: 268px;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem 1.15rem;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 0.35rem 1.35rem;
+    }
+
+    .sidebar-brand h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    .sidebar-brand span {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--sky);
+    }
+
+    .resident-mini-card {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.9rem;
+      margin-bottom: 1.65rem;
+    }
+
+    .avatar-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--sky);
+      font-weight: 700;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar-circle.large {
+      width: 58px;
+      height: 58px;
+      font-size: 1.2rem;
+    }
+
+    .resident-mini-info strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    .resident-id-code {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 1px 0 3px;
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    .verified-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .nav-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 0 0.65rem 0.65rem;
+    }
+
+    /* Fixed Left-Aligned Navigation Items */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .nav-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.8rem;
+      padding: 0.78rem 0.9rem;
+      border-radius: 11px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .nav-item .nav-text {
+      flex: 1;
+    }
+
+    .nav-item:hover {
+      background: rgba(30, 41, 59, 0.55);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: rgba(14, 165, 233, 0.14);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--sky);
+      font-weight: 600;
+    }
+
+    .nav-badge {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1rem;
+    }
+
+    .logout-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .logout-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
+      color: #ffffff;
+    }
+
+    /* ================= MAIN CONTENT & DASHBOARD ================= */
+    .main-content {
+      flex: 1;
+      padding: 2rem 2.5rem;
+      max-width: 1220px;
+    }
+
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+      animation: fadeIn 0.22s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--sky);
+      margin-bottom: 0.25rem;
+    }
+
+    .page-header-row h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+    }
+
+    /* Resident ID Banner */
+    .resident-id-banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(125deg, #0369a1 0%, #0284c7 52%, #0ea5e9 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 18px 36px rgba(2, 132, 199, 0.26);
+    }
+
+    .id-banner-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .id-agency {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .agency-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agency-icon svg {
+      width: 22px;
+      height: 22px;
+      color: #ffffff;
+    }
+
+    .agency-republic {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .agency-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+    }
+
+    .verified-chip {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .verified-chip.small {
+      display: inline-block;
+      margin-top: 0.35rem;
+      background: rgba(16, 185, 129, 0.16);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+
+    .id-banner-body {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .id-avatar-large {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.32);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .id-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .id-details h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.65rem;
+    }
+
+    .id-meta-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .id-meta-pill {
+      background: rgba(15, 23, 42, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 9px;
+      padding: 0.38rem 0.78rem;
+    }
+
+    .id-meta-pill span {
+      display: block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .id-meta-pill strong {
+      font-size: 0.84rem;
+      color: #ffffff;
+    }
+
+    .id-watermark {
+      position: absolute;
+      right: -18px;
+      bottom: -24px;
+      width: 220px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    /* KPI Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .kpi-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .kpi-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .kpi-icon.blue { background: rgba(14, 165, 233, 0.14); color: var(--sky); }
+    .kpi-icon.emerald { background: rgba(16, 185, 129, 0.14); color: #34d399; }
+    .kpi-icon.amber { background: rgba(245, 158, 11, 0.14); color: #fbbf24; }
+
+    .kpi-label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-value {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* Quick Services */
+    .section-block {
+      margin-bottom: 1.75rem;
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-heading {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .section-hint {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .services-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.15rem;
+    }
+
+    .service-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      text-align: left;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .service-card:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+    }
+
+    .service-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .service-icon.blue { background: rgba(14, 165, 233, 0.15); color: var(--sky); }
+    .service-icon.emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+    .service-time-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .service-card h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .service-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .service-cta {
+      margin-top: 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--sky);
+    }
+
+    /* Active Requests Panel */
+    .panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+
+    .panel-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.15rem;
+    }
+
+    .panel-title-with-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .panel-title-with-icon svg {
+      width: 19px;
+      height: 19px;
+      color: var(--sky);
+    }
+
+    .text-link-btn {
+      background: none;
+      border: none;
+      color: var(--sky);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .active-requests-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .request-mini-row {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.05rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .req-code {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--sky);
+      margin-bottom: 2px;
+    }
+
+    .request-mini-row h4 {
+      font-size: 0.98rem;
+      margin-bottom: 2px;
+    }
+
+    .request-mini-row p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .status-badge.ready {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-badge.queue {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* ================= REQUEST DOCUMENT FORM ================= */
+    .form-card-centered {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    .info-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: rgba(14, 165, 233, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.1rem;
+    }
+
+    .info-callout svg {
+      width: 20px;
+      height: 20px;
+      color: var(--sky);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-callout strong {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--text-main);
+    }
+
+    .info-callout p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .popup-field {
+      background: rgba(14, 165, 233, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .upload-dropzone {
+      border: 1.5px dashed rgba(148, 163, 184, 0.35);
+      background: var(--bg-input);
+      border-radius: var(--radius-md);
+      padding: 1.65rem 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-dropzone:hover,
+    .upload-dropzone.drag-over {
+      border-color: var(--sky);
+      background: rgba(14, 165, 233, 0.07);
+    }
+
+    .upload-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.14);
+      color: var(--sky);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .upload-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .upload-main-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .upload-sub-text {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .upload-verified-note {
+      display: inline-block;
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    .uploaded-files-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.65rem;
+    }
+
+    .file-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-input);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 9px;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.82rem;
+    }
+
+    .file-chip-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      overflow: hidden;
+    }
+
+    .file-chip-name {
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-chip-size {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .remove-file-btn {
+      background: rgba(239, 68, 68, 0.14);
+      border: none;
+      color: #fca5a5;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .form-actions-end {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 0.35rem;
+    }
+
+    /* ================= MY REQUESTS TRACKER ================= */
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .filter-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.55rem 1rem;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .tracker-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .tracker-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+
+    .tracker-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tracker-progress-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 0.55rem;
+    }
+
+    .progress-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .step-bar {
+      text-align: center;
+    }
+
+    .step-line {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.2);
+      margin-bottom: 0.45rem;
+    }
+
+    .step-bar.done .step-line {
+      background: #10b981;
+    }
+
+    .step-bar span {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .step-bar.done span {
+      color: var(--sky);
+    }
+
+    .tracker-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.85rem;
+    }
+
+    /* ================= PROFILE ================= */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .profile-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-section-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--sky);
+      margin-bottom: 1.1rem;
+    }
+
+    .toggle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .h-fit {
+      height: fit-content;
+    }
+
+    /* ================= MODALS & TOAST ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 100;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    }
+
+    .modal-box.wide {
+      max-width: 540px;
+      text-align: left;
+    }
+
+    .modal-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .modal-icon.amber {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fbbf24;
+    }
+
+    .modal-icon.red {
+      background: rgba(239, 68, 68, 0.16);
+      color: #f87171;
+    }
+
+    .modal-highlight-msg {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin: 0.65rem 0;
+    }
+
+    .modal-sub-msg {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .clearance-sheet {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .clearance-header {
+      text-align: center;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .clearance-header span {
+      display: block;
+      font-size: 0.72rem;
+      color: #475569;
+    }
+
+    .clearance-header strong {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .clearance-header h4 {
+      margin-top: 0.45rem;
+      color: #0284c7;
+      font-size: 1.1rem;
+    }
+
+    .clearance-body p {
+      font-size: 0.88rem;
+      margin-bottom: 0.65rem;
+      color: #1e293b;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #f8fafc;
+      padding: 0.85rem 1.2rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+      z-index: 120;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 960px) {
+      .auth-container,
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portal-shell {
+        flex-direction: column;
+      }
+
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 0.9rem 1.25rem;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+
+      .mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      .mobile-brand strong {
+        display: block;
+        font-size: 1rem;
+        line-height: 1.1;
+      }
+
+      .mobile-brand span {
+        font-size: 0.65rem;
+        color: var(--sky);
+        font-weight: 700;
+      }
+
+      .icon-btn {
+        background: var(--bg-input);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-main);
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .icon-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 60;
+        transition: left 0.25s ease;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .main-content {
+        padding: 1.5rem 1.15rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-grid,
+      .services-grid-2,
+      .form-grid-2,
+      .progress-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= AUTH VIEW (LOGIN / REGISTER) ================= -->
+  <div id="auth-view" class="auth-wrapper">
+    <div class="auth-container">
+      <!-- Left Branding Panel -->
+      <div class="auth-brand-card">
+        <div class="brand-top">
+          <div class="logo-lockup">
+            <div class="logo-badge">
+              <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="#F8FAFC" stroke-width="5.2" stroke-linecap="round"/>
+                <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="#38BDF8" stroke-width="5.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="logo-text-group">
+              <h1>E-BARYO</h1>
+              <span class="logo-sub-en">DIGITAL CONNECTIVITY</span>
+              <span class="logo-sub-brgy">Barangay Lapasan Resident Portal</span>
+            </div>
+          </div>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="16" rx="2"/>
+                  <circle cx="9" cy="10" r="2"/>
+                  <path d="M15 9h3M15 13h3M7 16h10"/>
+                </svg>
+              </div>
+              <div class="feature-copy">
+                <strong>Digital Barangay Resident ID</strong>
+                <span>Instant identity verification for Barangay Lapasan</span>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon icon-emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <path d="m9 15 2 2 4-4"/>
+                </svg>
+              </div>
+              <div class="feature-copy">
+                <strong>Fast Clearance Requests &amp; Digital Downloads</strong>
+                <span>Request official documents and track progress live</span>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon icon-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="feature-copy">
+                <strong>24/7 Self-Service Resident Access</strong>
+                <span>Submit applications anytime from desktop or mobile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Panel -->
+      <div class="auth-form-card">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" id="tab-login" class="auth-tab active" role="tab" aria-selected="true">Resident Login</button>
+          <button type="button" id="tab-register" class="auth-tab" role="tab" aria-selected="false">Register Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label for="login-id">Barangay Resident ID / Email</label>
+            <div class="input-with-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <circle cx="8" cy="11" r="2"/>
+                <path d="M14 10h4M14 14h4"/>
+              </svg>
+              <input type="text" id="login-id" value="BL-2026-8849" placeholder="Enter Resident ID or Email" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-with-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="login-password" value="••••••••••••" placeholder="Enter your password" required />
+            </div>
+          </div>
+
+          <div class="form-row-between">
+            <label class="checkbox-label">
+              <input type="checkbox" checked />
+              <span>Remember me</span>
+            </label>
+            <a href="#" id="forgot-password-link" class="text-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            <span>LOG IN TO RESIDENT PORTAL</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Register Form (Zone & Certification Removed, Age Added) -->
+        <form id="register-form" class="auth-form hidden">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="reg-fname">First Name *</label>
+              <input type="text" id="reg-fname" placeholder="First Name" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-lname">Last Name *</label>
+              <input type="text" id="reg-lname" placeholder="Last Name" required />
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="reg-age">Age *</label>
+              <input type="number" id="reg-age" min="1" max="120" placeholder="e.g. 24" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-mobile">Mobile Number *</label>
+              <input type="tel" id="reg-mobile" placeholder="0917-000-0000" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Gender *</label>
+            <div class="gender-selector">
+              <button type="button" class="gender-btn" data-gender="Male">
+                <span>&#9794;</span> Male
+              </button>
+              <button type="button" class="gender-btn active" data-gender="Female">
+                <span>&#9792;</span> Female
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-password">Create Password *</label>
+            <input type="password" id="reg-password" minlength="8" placeholder="At least 8 characters" required />
+          </div>
+
+          <button type="submit" class="btn btn-emerald btn-full">
+            COMPLETE RESIDENT REGISTRATION
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PORTAL APP SHELL ================= -->
+  <div id="portal-view" class="portal-shell hidden">
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+      <div class="mobile-brand">
+        <div class="logo-badge small">
+          <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="#F8FAFC" stroke-width="5.5" stroke-linecap="round"/>
+            <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="#38BDF8" stroke-width="5.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <strong>E-BARYO</strong>
+          <span>RESIDENT PORTAL</span>
+        </div>
+      </div>
+      <button type="button" id="mobile-menu-btn" class="icon-btn" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Left Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="logo-badge small">
+            <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="#F8FAFC" stroke-width="5.5" stroke-linecap="round"/>
+              <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="#38BDF8" stroke-width="5.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h2>E-BARYO</h2>
+            <span>RESIDENT PORTAL</span>
+          </div>
+        </div>
+
+        <div class="resident-mini-card">
+          <div class="avatar-circle" id="sidebar-initials">AS</div>
+          <div class="resident-mini-info">
+            <strong id="sidebar-name">Athea Salinas</strong>
+            <span class="resident-id-code" id="sidebar-id">BL-2026-8849</span>
+            <span class="verified-pill"><i class="dot"></i> Verified Resident</span>
+          </div>
+        </div>
+
+        <div class="nav-section-label">PORTAL NAVIGATION</div>
+        <nav class="sidebar-nav">
+          <button type="button" class="nav-item active" data-page="dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span class="nav-text">Home Dashboard</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="request">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span class="nav-text">Request Document</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="my-requests">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span class="nav-text">My Requests</span>
+            <span class="nav-badge" id="nav-request-count">2</span>
+          </button>
+
+          <button type="button" class="nav-item" data-page="profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="nav-text">Profile &amp; Settings</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <button type="button" id="logout-btn" class="logout-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- ===== PAGE 1: HOME DASHBOARD ===== -->
+      <section id="page-dashboard" class="page-section active">
+        <div class="page-header-row">
+          <div>
+            <span class="eyebrow">WELCOME BACK</span>
+            <h1 id="dashboard-greeting">Magandang Araw, Athea Salinas!</h1>
+            <p class="subtitle">Barangay Lapasan, Cagayan de Oro City</p>
+          </div>
+          <button type="button" class="btn btn-primary" data-goto="request">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span>New Request</span>
+          </button>
+        </div>
+
+        <!-- Digital Resident ID Card (No QR Code) -->
+        <div class="resident-id-banner">
+          <div class="id-banner-top">
+            <div class="id-agency">
+              <div class="agency-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+                </svg>
+              </div>
+              <div>
+                <span class="agency-republic">REPUBLIC OF THE PHILIPPINES</span>
+                <strong class="agency-title">BARANGAY LAPASAN DIGITAL RESIDENT ID</strong>
+              </div>
+            </div>
+            <span class="verified-chip">VERIFIED RESIDENT</span>
+          </div>
+
+          <div class="id-banner-body">
+            <div class="id-avatar-large" id="banner-initials">AS</div>
+            <div class="id-details">
+              <span class="id-label">RESIDENT FULL NAME</span>
+              <h2 id="banner-name">ATHEA SALINAS</h2>
+              <div class="id-meta-grid">
+                <div class="id-meta-pill">
+                  <span>Resident ID</span>
+                  <strong id="banner-id">BL-2026-8849</strong>
+                </div>
+                <div class="id-meta-pill">
+                  <span>Gender</span>
+                  <strong id="banner-gender">Female</strong>
+                </div>
+                <div class="id-meta-pill">
+                  <span>Age</span>
+                  <strong id="banner-age">24 yrs old</strong>
+                </div>
+                <div class="id-meta-pill">
+                  <span>Civil Status</span>
+                  <strong>Single</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="id-watermark" aria-hidden="true">
+            <svg viewBox="0 0 64 44" fill="none">
+              <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="white" stroke-width="4"/>
+              <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="white" stroke-width="4"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Portal Summary Metrics -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <div>
+              <span class="kpi-label">Total Applications</span>
+              <strong class="kpi-value" id="kpi-total">2</strong>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon emerald">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div>
+              <span class="kpi-label">Ready for Pickup</span>
+              <strong class="kpi-value" id="kpi-ready">1</strong>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <span class="kpi-label">In Verification Queue</span>
+              <strong class="kpi-value" id="kpi-queue">1</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Barangay Services (Only Barangay Clearance & Certificate of Residency) -->
+        <div class="section-block">
+          <div class="section-title-row">
+            <h3 class="section-heading">QUICK BARANGAY SERVICES</h3>
+            <span class="section-hint">Select a document to start an online application</span>
+          </div>
+          <div class="services-grid-2">
+            <button type="button" class="service-card" data-quick-doc="Barangay Clearance (General / Employment / Business)">
+              <div class="service-card-head">
+                <div class="service-icon blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                  </svg>
+                </div>
+                <span class="service-time-tag">Est. 1–2 hrs</span>
+              </div>
+              <h4>Barangay Clearance</h4>
+              <p>For local employment, business permits, and government ID requirements</p>
+              <span class="service-cta">Apply Now &rarr;</span>
+            </button>
+
+            <button type="button" class="service-card" data-quick-doc="Certificate of Residency">
+              <div class="service-card-head">
+                <div class="service-icon emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                </div>
+                <span class="service-time-tag">Same Day</span>
+              </div>
+              <h4>Certificate of Residency</h4>
+              <p>Official address proof for school enrollment, banking, and legal transactions</p>
+              <span class="service-cta">Apply Now &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- My Active Requests -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div class="panel-title-with-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <h3>My Active Requests</h3>
+            </div>
+            <button type="button" class="text-link-btn" data-goto="my-requests">View All Tracker &rarr;</button>
+          </div>
+
+          <div id="dashboard-requests-list" class="active-requests-stack"></div>
+        </div>
+      </section>
+
+      <!-- ===== PAGE 2: REQUEST DOCUMENT ===== -->
+      <section id="page-request" class="page-section">
+        <div class="page-header-row">
+          <div>
+            <h1>Request Barangay Clearance / Document</h1>
+            <p class="subtitle">Submit official application details for approval by Barangay Lapasan Secretariat</p>
+          </div>
+          <button type="button" class="btn btn-ghost" data-goto="dashboard">&larr; Back</button>
+        </div>
+
+        <form id="document-request-form" class="form-card-centered">
+          <div class="form-group">
+            <label for="doc-type">1. SELECT DOCUMENT TYPE *</label>
+            <select id="doc-type" required>
+              <option value="Barangay Clearance (General / Employment / Business)">Barangay Clearance (General / Employment / Business)</option>
+              <option value="Certificate of Residency">Certificate of Residency</option>
+              <option value="Barangay Business Permit Clearance">Barangay Business Permit Clearance</option>
+              <option value="Good Moral Character Certificate">Good Moral Character Certificate</option>
+            </select>
+          </div>
+
+          <div class="info-callout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <div>
+              <strong>Requirements Info:</strong>
+              <p>Valid Government ID or Resident Card verification required. Processing time: 1–2 hours.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="doc-purpose">2. PURPOSE OF REQUEST *</label>
+            <select id="doc-purpose" required>
+              <option value="Local Employment Application">Local Employment Application</option>
+              <option value="Government ID Application">Government ID Application</option>
+              <option value="Bank Account / Financial Requirement">Bank Account / Financial Requirement</option>
+              <option value="School / Scholarship Requirement">School / Scholarship Requirement</option>
+              <option value="Other Official Purpose">Other Official Purpose</option>
+            </select>
+          </div>
+
+          <!-- 3. Pops up ONLY when "Other Official Purpose" is selected -->
+          <div id="additional-remarks-group" class="form-group popup-field hidden">
+            <label for="doc-remarks">3. ADDITIONAL REMARKS / DETAILS *</label>
+            <textarea id="doc-remarks" rows="3" placeholder="Specify employer name, school, agency, or specific official purpose..."></textarea>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="doc-pickup">4. PICKUP / FULFILLMENT MODE</label>
+              <select id="doc-pickup">
+                <option value="Digital Download + On-Site Sealed Pickup">Digital Download + On-Site Sealed Pickup</option>
+                <option value="Digital Download Only">Digital Download Only</option>
+                <option value="On-Site Barangay Hall Pickup">On-Site Barangay Hall Pickup</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="doc-urgency">5. URGENCY PREFERENCE</label>
+              <select id="doc-urgency">
+                <option value="Standard Processing (Same Day)">Standard Processing (Same Day)</option>
+                <option value="Rush (Express 1-Hour)">Rush (Express 1-Hour)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 6. Functional File Uploader -->
+          <div class="form-group">
+            <label>6. UPLOAD REQUIREMENT ATTACHMENT</label>
+            <div id="upload-dropzone" class="upload-dropzone" tabindex="0" role="button" aria-label="Upload requirement files">
+              <input type="file" id="requirement-file-input" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" multiple hidden />
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <p class="upload-main-text">Click to browse or drag &amp; drop Proof of Identification / Requirement files</p>
+              <span class="upload-sub-text">Accepted formats: JPG, PNG, PDF, DOCX (Max 10MB per file)</span>
+              <span class="upload-verified-note" id="default-id-note">&#10003; System verified ID on file (BL-2026-8849)</span>
+            </div>
+            <div id="uploaded-files-list" class="uploaded-files-list"></div>
+          </div>
+
+          <div class="form-actions-end">
+            <button type="button" class="btn btn-ghost" data-goto="dashboard">Cancel</button>
+            <button type="submit" class="btn btn-emerald">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span>SUBMIT REQUEST</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== PAGE 3: MY REQUESTS & LIVE TRACKING ===== -->
+      <section id="page-my-requests" class="page-section">
+        <div class="page-header-row">
+          <div>
+            <h1>My Requests &amp; Live Tracking</h1>
+            <p class="subtitle">Track real-time status updates of your barangay certificate applications</p>
+          </div>
+          <button type="button" class="btn btn-primary" data-goto="request">+ Request New Document</button>
+        </div>
+
+        <div class="filter-pills">
+          <button type="button" class="filter-pill active" data-filter="all">All Requests (<span id="count-all">2</span>)</button>
+          <button type="button" class="filter-pill" data-filter="processing">Active Processing (<span id="count-processing">1</span>)</button>
+          <button type="button" class="filter-pill" data-filter="ready">Ready for Pickup / Download (<span id="count-ready">1</span>)</button>
+        </div>
+
+        <div id="tracker-cards-list" class="tracker-stack"></div>
+      </section>
+
+      <!-- ===== PAGE 4: PROFILE & SETTINGS ===== -->
+      <section id="page-profile" class="page-section">
+        <div class="page-header-row">
+          <div>
+            <h1>Resident Profile &amp; Settings</h1>
+            <p class="subtitle">Manage your personal demographic details and notification preferences</p>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <form id="profile-form" class="panel-card">
+            <div class="profile-head">
+              <div class="avatar-circle large" id="profile-initials">AS</div>
+              <div>
+                <h3 id="profile-display-name">Athea Salinas</h3>
+                <span class="resident-id-code" id="profile-display-id">BL-2026-8849</span>
+                <span class="verified-chip small">&#10003; Verified Resident Record</span>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="prof-name">Full Name</label>
+                <input type="text" id="prof-name" value="Athea Salinas" required />
+              </div>
+              <div class="form-group">
+                <label for="prof-gender">Gender</label>
+                <select id="prof-gender">
+                  <option value="Female" selected>Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="prof-age">Age</label>
+                <input type="number" id="prof-age" value="24" min="1" max="120" required />
+              </div>
+              <div class="form-group">
+                <label for="prof-phone">Contact Phone Number</label>
+                <input type="tel" id="prof-phone" value="0917-882-9102" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="prof-emergency">Emergency Contact Person &amp; Number</label>
+              <input type="text" id="prof-emergency" value="Maria Salinas (Mother) - 0918-555-1234" />
+            </div>
+
+            <div class="form-actions-end">
+              <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+            </div>
+          </form>
+
+          <div class="panel-card h-fit">
+            <h3 class="card-section-title">NOTIFICATION PREFERENCES</h3>
+            <div class="toggle-list">
+              <label class="toggle-row">
+                <span>SMS Status Notifications</span>
+                <input type="checkbox" checked />
+              </label>
+              <label class="toggle-row">
+                <span>Email Clearance PDF Receipts</span>
+                <input type="checkbox" checked />
+              </label>
+              <label class="toggle-row">
+                <span>Document Pickup Reminders</span>
+                <input type="checkbox" checked />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+  <!-- Registration Approval Modal -->
+  <div id="approval-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-icon amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3>Registration Submitted</h3>
+      <p class="modal-highlight-msg">"Wait for the approval, upon checking"</p>
+      <p class="modal-sub-msg">Your resident account details have been forwarded to the Barangay Lapasan Secretariat for verification.</p>
+      <button type="button" id="close-approval-modal" class="btn btn-primary btn-full">Got It</button>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-icon red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
+      <h3>Confirm Log Out</h3>
+      <p class="modal-sub-msg">Are you sure you want to log out of your E-BARYO Resident Portal session?</p>
+      <div class="modal-actions-2">
+        <button type="button" id="cancel-logout-btn" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="confirm-logout-btn" class="btn btn-danger">Yes, Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- E-Clearance Preview Modal -->
+  <div id="clearance-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-box wide">
+      <div class="clearance-sheet">
+        <div class="clearance-header">
+          <span>REPUBLIC OF THE PHILIPPINES</span>
+          <strong>BARANGAY LAPASAN, CAGAYAN DE ORO CITY</strong>
+          <h4>ELECTRONIC BARANGAY CLEARANCE</h4>
+        </div>
+        <div class="clearance-body" id="clearance-preview-body"></div>
+      </div>
+      <div class="modal-actions-2">
+        <button type="button" id="close-clearance-modal" class="btn btn-ghost">Close</button>
+        <button type="button" id="print-clearance-btn" class="btn btn-emerald">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // ================= STATE =================
+      const state = {
+        resident: {
+          name: "Athea Salinas",
+          id: "BL-2026-8849",
+          gender: "Female",
+          age: 24,
+          phone: "0917-882-9102",
+          emergency: "Maria Salinas (Mother) - 0918-555-1234"
+        },
+        selectedGender: "Female",
+        attachedFiles: [],
+        currentFilter: "all",
+        requests: [
+          {
+            id: "BL-REQ-9901",
+            date: "Nov 23, 2026 • 10:15 AM",
+            type: "Barangay Clearance",
+            purpose: "Local Employment Application",
+            pickup: "Digital PDF & On-Site Pickup",
+            urgency: "Standard (Same Day)",
+            status: "ready",
+            statusLabel: "Ready for Pickup",
+            step: 4
+          },
+          {
+            id: "BL-REQ-9884",
+            date: "Nov 22, 2026 • 2:30 PM",
+            type: "Certificate of Residency",
+            purpose: "Government ID Application",
+            pickup: "Digital Download Only",
+            urgency: "Rush (Express 1-Hour)",
+            status: "processing",
+            statusLabel: "In Queue",
+            step: 2
+          }
+        ]
+      };
+
+      // ================= DOM REFERENCES =================
+      const authView = document.getElementById("auth-view");
+      const portalView = document.getElementById("portal-view");
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+      const loginForm = document.getElementById("login-form");
+      const registerForm = document.getElementById("register-form");
+      const approvalModal = document.getElementById("approval-modal");
+      const logoutModal = document.getElementById("logout-modal");
+      const clearanceModal = document.getElementById("clearance-modal");
+      const sidebar = document.getElementById("sidebar");
+
+      // ================= HELPERS =================
+      function getInitials(fullName) {
+        return fullName
+          .trim()
+          .split(/\s+/)
+          .slice(0, 2)
+          .map((part) => part[0]?.toUpperCase() || "")
+          .join("") || "RS";
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.remove("hidden");
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => {
+          toast.classList.add("hidden");
+        }, 3200);
+      }
+
+      function syncResidentUI() {
+        const { name, id, gender, age, phone, emergency } = state.resident;
+        const initials = getInitials(name);
+
+        document.getElementById("sidebar-initials").textContent = initials;
+        document.getElementById("sidebar-name").textContent = name;
+        document.getElementById("sidebar-id").textContent = id;
+
+        document.getElementById("dashboard-greeting").textContent = `Magandang Araw, ${name}!`;
+        document.getElementById("banner-initials").textContent = initials;
+        document.getElementById("banner-name").textContent = name.toUpperCase();
+        document.getElementById("banner-id").textContent = id;
+        document.getElementById("banner-gender").textContent = gender;
+        document.getElementById("banner-age").textContent = `${age} yrs old`;
+
+        document.getElementById("profile-initials").textContent = initials;
+        document.getElementById("profile-display-name").textContent = name;
+        document.getElementById("profile-display-id").textContent = id;
+        document.getElementById("prof-name").value = name;
+        document.getElementById("prof-gender").value = gender;
+        document.getElementById("prof-age").value = age;
+        document.getElementById("prof-phone").value = phone;
+        document.getElementById("prof-emergency").value = emergency;
+      }
+
+      function renderRequests() {
+        const total = state.requests.length;
+        const readyCount = state.requests.filter((r) => r.status === "ready").length;
+        const processingCount = state.requests.filter((r) => r.status !== "ready").length;
+
+        document.getElementById("nav-request-count").textContent = total;
+        document.getElementById("kpi-total").textContent = total;
+        document.getElementById("kpi-ready").textContent = readyCount;
+        document.getElementById("kpi-queue").textContent = processingCount;
+
+        document.getElementById("count-all").textContent = total;
+        document.getElementById("count-processing").textContent = processingCount;
+        document.getElementById("count-ready").textContent = readyCount;
+
+        // Dashboard Active Requests
+        const dashboardList = document.getElementById("dashboard-requests-list");
+        dashboardList.innerHTML = state.requests
+          .map(
+            (req) => `
+            <div class="request-mini-row">
+              <div>
+                <span class="req-code">${req.id}</span>
+                <h4>${req.type}</h4>
+                <p>${req.purpose}</p>
+              </div>
+              <span class="status-badge ${req.status === "ready" ? "ready" : "queue"}">
+                ${req.statusLabel}
+              </span>
+            </div>
+          `
+          )
+          .join("");
+
+        // Tracker Cards
+        const filtered = state.requests.filter((req) => {
+          if (state.currentFilter === "ready") return req.status === "ready";
+          if (state.currentFilter === "processing") return req.status !== "ready";
+          return true;
+        });
+
+        const trackerList = document.getElementById("tracker-cards-list");
+        trackerList.innerHTML = filtered
+          .map((req) => {
+            const steps = ["Submitted", "Verification", "Processing", "Ready"];
+            const stepHTML = steps
+              .map(
+                (label, idx) => `
+                <div class="step-bar ${idx + 1 <= req.step ? "done" : ""}">
+                  <div class="step-line"></div>
+                  <span>${label}</span>
+                </div>
+              `
+              )
+              .join("");
+
+            const actionBadge =
+              req.status === "ready"
+                ? `<button type="button" class="btn btn-emerald view-eclearance-btn" data-req-id="${req.id}">View E-Clearance</button>`
+                : `<span class="status-badge queue">${req.statusLabel}</span>`;
+
+            return `
+              <div class="tracker-card">
+                <div class="tracker-top">
+                  <div>
+                    <span class="req-code">${req.id} &bull; ${req.date}</span>
+                    <h3>${req.type}</h3>
+                    <p class="subtitle">Purpose: ${req.purpose}</p>
+                  </div>
+                  ${actionBadge}
+                </div>
+                <div class="tracker-progress-label">LIVE APPLICATION PROGRESS:</div>
+                <div class="progress-steps">${stepHTML}</div>
+                <div class="tracker-footer">
+                  <span>Pickup Mode: <strong>${req.pickup}</strong></span>
+                  <span>Urgency: <strong>${req.urgency}</strong></span>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        document.querySelectorAll(".view-eclearance-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const req = state.requests.find((r) => r.id === btn.dataset.reqId);
+            if (!req) return;
+            document.getElementById("clearance-preview-body").innerHTML = `
+              <p><strong>Tracking No.:</strong> ${req.id}</p>
+              <p><strong>Document:</strong> ${req.type}</p>
+              <p><strong>Issued To:</strong> ${state.resident.name} (${state.resident.id})</p>
+              <p><strong>Age / Gender:</strong> ${state.resident.age} yrs old / ${state.resident.gender}</p>
+              <p><strong>Purpose:</strong> ${req.purpose}</p>
+              <p>This certifies that the above-named individual is a bonafide resident of Barangay Lapasan, Cagayan de Oro City with no derogatory record on file.</p>
+            `;
+            clearanceModal.classList.remove("hidden");
+          });
+        });
+      }
+
+      function navigateTo(pageKey) {
+        document.querySelectorAll(".page-section").forEach((sec) => {
+          sec.classList.toggle("active", sec.id === `page-${pageKey}`);
+        });
+        document.querySelectorAll(".nav-item").forEach((nav) => {
+          nav.classList.toggle("active", nav.dataset.page === pageKey);
+        });
+        sidebar.classList.remove("open");
+      }
+
+      // ================= AUTH EVENTS =================
+      tabLogin.addEventListener("click", () => {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+      });
+
+      tabRegister.addEventListener("click", () => {
+        tabRegister.classList.add("active");
+        tabLogin.classList.remove("active");
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+      });
+
+      document.querySelectorAll(".gender-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".gender-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          state.selectedGender = btn.dataset.gender;
+        });
+      });
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const enteredId = document.getElementById("login-id").value.trim();
+        if (enteredId && !enteredId.includes("@")) {
+          state.resident.id = enteredId;
+        }
+        syncResidentUI();
+        renderRequests();
+        authView.classList.add("hidden");
+        portalView.classList.remove("hidden");
+        navigateTo("dashboard");
+      });
+
+      registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fname = document.getElementById("reg-fname").value.trim();
+        const lname = document.getElementById("reg-lname").value.trim();
+        const age = parseInt(document.getElementById("reg-age").value, 10) || 18;
+        const mobile = document.getElementById("reg-mobile").value.trim();
+
+        state.resident.name = `${fname} ${lname}`;
+        state.resident.age = age;
+        state.resident.gender = state.selectedGender;
+        state.resident.phone = mobile;
+
+        approvalModal.classList.remove("hidden");
+      });
+
+      document.getElementById("close-approval-modal").addEventListener("click", () => {
+        approvalModal.classList.add("hidden");
+        registerForm.reset();
+        tabLogin.click();
+      });
+
+      document.getElementById("forgot-password-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        showToast("Password reset instructions sent to your registered mobile number.");
+      });
+
+      // ================= NAVIGATION & LOGOUT =================
+      document.querySelectorAll(".nav-item").forEach((btn) => {
+        btn.addEventListener("click", () => navigateTo(btn.dataset.page));
+      });
+
+      document.querySelectorAll("[data-goto]").forEach((btn) => {
+        btn.addEventListener("click", () => navigateTo(btn.dataset.goto));
+      });
+
+      document.querySelectorAll("[data-quick-doc]").forEach((card) => {
+        card.addEventListener("click", () => {
+          document.getElementById("doc-type").value = card.dataset.quickDoc;
+          navigateTo("request");
+        });
+      });
+
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+      });
+
+      document.getElementById("logout-btn").addEventListener("click", () => {
+        logoutModal.classList.remove("hidden");
+      });
+
+      document.getElementById("cancel-logout-btn").addEventListener("click", () => {
+        logoutModal.classList.add("hidden");
+      });
+
+      document.getElementById("confirm-logout-btn").addEventListener("click", () => {
+        logoutModal.classList.add("hidden");
+        portalView.classList.add("hidden");
+        authView.classList.remove("hidden");
+        showToast("You have been securely logged out.");
+      });
+
+      // ================= REQUEST DOCUMENT & FILE UPLOAD =================
+      const docPurpose = document.getElementById("doc-purpose");
+      const remarksGroup = document.getElementById("additional-remarks-group");
+      const remarksInput = document.getElementById("doc-remarks");
+
+      docPurpose.addEventListener("change", () => {
+        const isOther = docPurpose.value === "Other Official Purpose";
+        remarksGroup.classList.toggle("hidden", !isOther);
+        remarksInput.required = isOther;
+        if (isOther) remarksInput.focus();
+      });
+
+      const dropzone = document.getElementById("upload-dropzone");
+      const fileInput = document.getElementById("requirement-file-input");
+      const filesListEl = document.getElementById("uploaded-files-list");
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+      }
+
+      function renderAttachedFiles() {
+        filesListEl.innerHTML = state.attachedFiles
+          .map(
+            (file, idx) => `
+            <div class="file-chip">
+              <div class="file-chip-meta">
+                <span class="file-chip-name">${file.name}</span>
+                <span class="file-chip-size">(${formatBytes(file.size)})</span>
+              </div>
+              <button type="button" class="remove-file-btn" data-remove-idx="${idx}" aria-label="Remove file">&times;</button>
+            </div>
+          `
+          )
+          .join("");
+
+        filesListEl.querySelectorAll(".remove-file-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const index = parseInt(btn.dataset.removeIdx, 10);
+            state.attachedFiles.splice(index, 1);
+            renderAttachedFiles();
+          });
+        });
+      }
+
+      function addFiles(fileList) {
+        Array.from(fileList).forEach((file) => {
+          state.attachedFiles.push(file);
+        });
+        renderAttachedFiles();
+      }
+
+      dropzone.addEventListener("click", () => fileInput.click());
+      dropzone.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+          addFiles(e.target.files);
+          fileInput.value = "";
+        }
+      });
+
+      dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("drag-over");
+      });
+
+      dropzone.addEventListener("dragleave", () => {
+        dropzone.classList.remove("drag-over");
+      });
+
+      dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("drag-over");
+        if (e.dataTransfer.files.length) {
+          addFiles(e.dataTransfer.files);
+        }
+      });
+
+      document.getElementById("document-request-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const docType = document.getElementById("doc-type").value;
+        const purpose = docPurpose.value;
+        const remarks = remarksInput.value.trim();
+        const pickup = document.getElementById("doc-pickup").value;
+        const urgency = document.getElementById("doc-urgency").value;
+
+        const fullPurpose =
+          purpose === "Other Official Purpose" && remarks
+            ? `Other Official Purpose (${remarks})`
+            : purpose;
+
+        const randomNum = Math.floor(9902 + Math.random() * 90);
+        state.requests.unshift({
+          id: `BL-REQ-${randomNum}`,
+          date: "Nov 23, 2026 • Just now",
+          type: docType.replace(" (General / Employment / Business)", ""),
+          purpose: fullPurpose,
+          pickup,
+          urgency,
+          status: "processing",
+          statusLabel: "In Queue",
+          step: 1
+        });
+
+        state.attachedFiles = [];
+        renderAttachedFiles();
+        remarksGroup.classList.add("hidden");
+        e.target.reset();
+
+        renderRequests();
+        navigateTo("my-requests");
+        showToast("Document request submitted to Barangay Lapasan Secretariat!");
+      });
+
+      // ================= TRACKER FILTERS & PROFILE =================
+      document.querySelectorAll(".filter-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          document.querySelectorAll(".filter-pill").forEach((p) => p.classList.remove("active"));
+          pill.classList.add("active");
+          state.currentFilter = pill.dataset.filter;
+          renderRequests();
+        });
+      });
+
+      document.getElementById("profile-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        state.resident.name = document.getElementById("prof-name").value.trim();
+        state.resident.gender = document.getElementById("prof-gender").value;
+        state.resident.age = parseInt(document.getElementById("prof-age").value, 10) || 18;
+        state.resident.phone = document.getElementById("prof-phone").value.trim();
+        state.resident.emergency = document.getElementById("prof-emergency").value.trim();
+
+        syncResidentUI();
+        showToast("Profile changes saved successfully.");
+      });
+
+      document.getElementById("close-clearance-modal").addEventListener("click", () => {
+        clearanceModal.classList.add("hidden");
+      });
+
+      document.getElementById("print-clearance-btn").addEventListener("click", () => {
+        window.print();
+      });
+
+      // Initialize initial state
+      syncResidentUI();
+      renderRequests();
+    });
+  </script>
+</body>
+</html>
