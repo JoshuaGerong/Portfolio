@@ -1703,17 +1703,29 @@
         </form>
 
         <!-- Register Form (Zone & Certification Removed, Age Added) -->
-        <form id="register-form" class="auth-form hidden">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="reg-fname">First Name *</label>
-              <input type="text" id="reg-fname" placeholder="First Name" required />
+       <!-- Register Form -->
+          <form id="register-form" class="auth-form hidden">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="reg-fname">First Name *</label>
+                <input type="text" id="reg-fname" placeholder="First Name" required />
+              </div>
+              <div class="form-group">
+                <label for="reg-midname">Middle Name</label>
+                <input type="text" id="reg-midname" placeholder="Middle Name (Optional)" />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="reg-lname">Last Name *</label>
-              <input type="text" id="reg-lname" placeholder="Last Name" required />
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="reg-lname">Last Name *</label>
+                <input type="text" id="reg-lname" placeholder="Last Name" required />
+              </div>
+              <div class="form-group">
+                <label for="reg-suffix">Suffix (Optional)</label>
+                <input type="text" id="reg-suffix" placeholder="e.g., Jr., Sr., III" />
+              </div>
             </div>
-          </div>
 
           <div class="form-grid-2">
             <div class="form-group">
@@ -2186,10 +2198,7 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="prof-emergency">Emergency Contact Person &amp; Number</label>
-              <input type="text" id="prof-emergency" value="Maria Salinas (Mother) - 0918-555-1234" />
-            </div>
+            
 
             <div class="form-actions-end">
               <button type="submit" class="btn btn-primary">Save Profile Changes</button>
@@ -2280,12 +2289,15 @@
       // ================= STATE =================
       const state = {
         resident: {
+          fname: "Athea",
+          midname: "",
+          lname: "Salinas",
+          suffix: "",
           name: "Athea Salinas",
           id: "BL-2026-8849",
           gender: "Female",
           age: 24,
-          phone: "0917-882-9102",
-          emergency: "Maria Salinas (Mother) - 0918-555-1234"
+          phone: "0917-882-9102"
         },
         selectedGender: "Female",
         attachedFiles: [],
@@ -2329,13 +2341,28 @@
       const sidebar = document.getElementById("sidebar");
 
       // ================= HELPERS =================
+      function buildFullName(resident) {
+        const parts = [
+          resident.fname,
+          resident.midname,
+          resident.lname,
+          resident.suffix
+        ]
+          .map((p) => (p || "").trim())
+          .filter(Boolean);
+
+        return parts.length ? parts.join(" ") : (resident.name || "").trim();
+      }
+
       function getInitials(fullName) {
-        return fullName
-          .trim()
-          .split(/\s+/)
-          .slice(0, 2)
-          .map((part) => part[0]?.toUpperCase() || "")
-          .join("") || "RS";
+        return (
+          fullName
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map((part) => part[0]?.toUpperCase() || "")
+            .join("") || "RS"
+        );
       }
 
       function showToast(message) {
@@ -2349,28 +2376,39 @@
       }
 
       function syncResidentUI() {
-        const { name, id, gender, age, phone, emergency } = state.resident;
-        const initials = getInitials(name);
+        const { fname, lname, suffix, id, gender, age, phone } = state.resident;
+        const fullName = buildFullName(state.resident);
+        state.resident.name = fullName;
+
+        const greetingName =
+          [fname, lname, suffix]
+            .map((p) => (p || "").trim())
+            .filter(Boolean)
+            .join(" ") || fullName;
+
+        const initials =
+          fname && lname
+            ? `${fname[0]}${lname[0]}`.toUpperCase()
+            : getInitials(fullName);
 
         document.getElementById("sidebar-initials").textContent = initials;
-        document.getElementById("sidebar-name").textContent = name;
+        document.getElementById("sidebar-name").textContent = fullName;
         document.getElementById("sidebar-id").textContent = id;
 
-        document.getElementById("dashboard-greeting").textContent = `Magandang Araw, ${name}!`;
+        document.getElementById("dashboard-greeting").textContent = `Magandang Araw, ${greetingName}!`;
         document.getElementById("banner-initials").textContent = initials;
-        document.getElementById("banner-name").textContent = name.toUpperCase();
+        document.getElementById("banner-name").textContent = fullName.toUpperCase();
         document.getElementById("banner-id").textContent = id;
         document.getElementById("banner-gender").textContent = gender;
         document.getElementById("banner-age").textContent = `${age} yrs old`;
 
         document.getElementById("profile-initials").textContent = initials;
-        document.getElementById("profile-display-name").textContent = name;
+        document.getElementById("profile-display-name").textContent = fullName;
         document.getElementById("profile-display-id").textContent = id;
-        document.getElementById("prof-name").value = name;
+        document.getElementById("prof-name").value = fullName;
         document.getElementById("prof-gender").value = gender;
         document.getElementById("prof-age").value = age;
         document.getElementById("prof-phone").value = phone;
-        document.getElementById("prof-emergency").value = emergency;
       }
 
       function renderRequests() {
@@ -2520,11 +2558,17 @@
       registerForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const fname = document.getElementById("reg-fname").value.trim();
+        const midname = document.getElementById("reg-midname").value.trim();
         const lname = document.getElementById("reg-lname").value.trim();
+        const suffix = document.getElementById("reg-suffix").value.trim();
         const age = parseInt(document.getElementById("reg-age").value, 10) || 18;
         const mobile = document.getElementById("reg-mobile").value.trim();
 
-        state.resident.name = `${fname} ${lname}`;
+        state.resident.fname = fname;
+        state.resident.midname = midname;
+        state.resident.lname = lname;
+        state.resident.suffix = suffix;
+        state.resident.name = buildFullName(state.resident);
         state.resident.age = age;
         state.resident.gender = state.selectedGender;
         state.resident.phone = mobile;
@@ -2711,11 +2755,14 @@
 
       document.getElementById("profile-form").addEventListener("submit", (e) => {
         e.preventDefault();
+        state.resident.fname = "";
+        state.resident.midname = "";
+        state.resident.lname = "";
+        state.resident.suffix = "";
         state.resident.name = document.getElementById("prof-name").value.trim();
         state.resident.gender = document.getElementById("prof-gender").value;
         state.resident.age = parseInt(document.getElementById("prof-age").value, 10) || 18;
         state.resident.phone = document.getElementById("prof-phone").value.trim();
-        state.resident.emergency = document.getElementById("prof-emergency").value.trim();
 
         syncResidentUI();
         showToast("Profile changes saved successfully.");
