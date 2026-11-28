@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>E-BARYO Mobile | Barangay  Resident App</title>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-outer: #030712;
+      --bg-page: #070d19;
+      --bg-surface: #0f172a;
+      --bg-card: #131c31;
+      --bg-input: #0b1221;
+      --border-subtle: rgba(148, 163, 184, 0.16);
+      --border-focus: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #0284c7;
+      --sky: #38bdf8;
+      --emerald: #059669;
+      --amber: #d97706;
+      --danger: #dc2626;
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 9px;
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-outer);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ================= MOBILE APP SHELL ================= */
+    .app-frame {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background-color: var(--bg-page);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
+      border-left: 1px solid rgba(148, 163, 184, 0.08);
+      border-right: 1px solid rgba(148, 163, 184, 0.08);
+    }
+
+    /* ================= MOBILE AUTH SCREEN ================= */
+    .mobile-auth-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.75rem 1.25rem 2rem;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(14, 165, 233, 0.16), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(16, 185, 129, 0.12), transparent 45%),
+        var(--bg-page);
+    }
+
+    .auth-hero {
+      text-align: center;
+      padding-top: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .logo-badge {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 0.85rem;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #16223b, #0c1426);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem;
+      box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25);
+    }
+
+    .logo-badge.mini {
+      width: 36px;
+      height: 36px;
+      margin: 0;
+      border-radius: 10px;
+      padding: 0.4rem;
+    }
+
+    .logo-badge svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .auth-hero h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .auth-hero .sub-en {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .auth-hero .sub-brgy {
+      display: inline-block;
+      margin-top: 0.45rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--sky);
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .auth-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.35rem;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg-input);
+      padding: 0.3rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.3rem;
+    }
+
+    .auth-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.68rem 0.75rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab.active {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    }
+
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+    }
+
+    .form-group label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.02em;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 11px;
+      padding: 0.82rem 0.9rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.16);
+    }
+
+    .input-icon-wrap {
+      position: relative;
+    }
+
+    .input-icon-wrap svg {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .input-icon-wrap input {
+      padding-left: 2.5rem;
+    }
+
+    .auth-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--text-muted);
+    }
+
+    .text-link {
+      color: var(--sky);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .gender-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .gender-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.72rem;
+      border-radius: 11px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .gender-btn.active {
+      border-color: var(--sky);
+      background: rgba(14, 165, 233, 0.14);
+      color: #ffffff;
+    }
+
+    .auth-footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 1.25rem;
+    }
+
+    /* ================= BUTTONS ================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: none;
+      border-radius: 12px;
+      padding: 0.88rem 1.15rem;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.32);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.32);
+    }
+
+    .btn-ghost {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    /* ================= TOP APP BAR ================= */
+    .mobile-portal-view {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: calc(var(--nav-height) + 16px);
+    }
+
+    .top-app-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.1rem;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .top-bar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .top-bar-brand strong {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+    }
+
+    .top-bar-brand span {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--sky);
+    }
+
+    .top-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .verified-pill-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      padding: 0.28rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .verified-pill-mini .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .icon-circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon-circle-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ================= SCREEN CONTENT ================= */
+    .screen-body {
+      padding: 1.1rem;
+      flex: 1;
+    }
+
+    .tab-screen {
+      display: none;
+    }
+
+    .tab-screen.active {
+      display: block;
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .greeting-block {
+      margin-bottom: 1rem;
+    }
+
+    .greeting-block .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--sky);
+    }
+
+    .greeting-block h2 {
+      font-size: 1.32rem;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .greeting-block p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Mobile Digital Resident ID Card */
+    .mobile-id-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 55%, #0ea5e9 100%);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+      margin-bottom: 1.15rem;
+      box-shadow: 0 14px 30px rgba(2, 132, 199, 0.28);
+    }
+
+    .id-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .id-card-agency span {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .id-card-agency strong {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .id-verified-tag {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .id-card-main {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 0.95rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .id-avatar-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.32);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .id-holder-info span {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .id-holder-info h3 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .id-pills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .id-pill-item {
+      background: rgba(15, 23, 42, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 9px;
+      padding: 0.4rem 0.65rem;
+    }
+
+    .id-pill-item span {
+      display: block;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .id-pill-item strong {
+      font-size: 0.8rem;
+      color: #ffffff;
+    }
+
+    /* Mobile 3-Column Compact KPI Strip */
+    .mobile-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .kpi-mini-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.65rem;
+      text-align: center;
+    }
+
+    .kpi-mini-card strong {
+      display: block;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .kpi-mini-card span {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .text-sky { color: var(--sky); }
+    .text-emerald { color: #34d399; }
+    .text-amber { color: #fbbf24; }
+
+    /* Quick Services Stack */
+    .section-header-sm {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.7rem;
+    }
+
+    .section-header-sm h4 {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .section-header-sm button {
+      background: none;
+      border: none;
+      color: var(--sky);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .quick-services-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .mobile-service-tile {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 0.95rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-align: left;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .mobile-service-tile:active {
+      background: var(--bg-card);
+      border-color: var(--sky);
+    }
+
+    .tile-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tile-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .tile-icon.blue { background: rgba(14, 165, 233, 0.15); color: var(--sky); }
+   
+
+    .tile-copy {
+      flex: 1;
+    }
+
+    .tile-copy strong {
+      display: block;
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .tile-copy span {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .tile-arrow {
+      color: var(--sky);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* Recent Requests List */
+    .request-list-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .mobile-req-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 0.95rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .req-id-tag {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--sky);
+      margin-bottom: 2px;
+    }
+
+    .mobile-req-card h4 {
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .mobile-req-card p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .badge-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.32rem 0.65rem;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .badge-pill.ready {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-pill.queue {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* ================= SCREEN 2: REQUEST DOCUMENT ================= */
+    .screen-title-bar {
+      margin-bottom: 1rem;
+    }
+
+    .screen-title-bar h2 {
+      font-size: 1.28rem;
+      font-weight: 800;
+    }
+
+    .screen-title-bar p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .mobile-form-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.05rem;
+    }
+
+    .info-banner-sm {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      background: rgba(14, 165, 233, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-md);
+      padding: 0.8rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .info-banner-sm svg {
+      width: 18px;
+      height: 18px;
+      color: var(--sky);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .popup-box {
+      background: rgba(14, 165, 233, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      animation: slideUp 0.2s ease;
+    }
+
+    .mobile-upload-zone {
+      border: 1.5px dashed rgba(148, 163, 184, 0.35);
+      background: var(--bg-input);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 0.9rem;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .mobile-upload-zone:active {
+      border-color: var(--sky);
+      background: rgba(14, 165, 233, 0.08);
+    }
+
+    .upload-circle-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--sky);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-circle-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .mobile-upload-zone p {
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .mobile-upload-zone span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .mobile-upload-zone .verified-id-line {
+      color: #34d399;
+      font-weight: 600;
+      margin-top: 0.45rem;
+    }
+
+    .attached-files-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-top: 0.5rem;
+    }
+
+    .file-pill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-input);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 9px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.78rem;
+    }
+
+    .file-pill-row span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+    }
+
+    .file-pill-row button {
+      background: rgba(239, 68, 68, 0.16);
+      border: none;
+      color: #fca5a5;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ================= SCREEN 3: TRACKER ================= */
+    .filter-scroll-row {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+      scrollbar-width: none;
+    }
+
+    .filter-scroll-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-filter {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.5rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .chip-filter.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .mobile-tracker-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .tracker-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.65rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .tracker-card-head h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .tracker-card-head p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .progress-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+    }
+
+    .prog-step {
+      text-align: center;
+    }
+
+    .prog-bar {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.2);
+      margin-bottom: 0.3rem;
+    }
+
+    .prog-step.done .prog-bar {
+      background: #10b981;
+    }
+
+    .prog-step span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .prog-step.done span {
+      color: var(--sky);
+    }
+
+    .tracker-card-foot {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.7rem;
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* ================= SCREEN 4: PROFILE ================= */
+    .profile-banner-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar-lg {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--sky);
+      font-weight: 800;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .notif-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.15rem;
+      margin-top: 1rem;
+    }
+
+    .notif-card h4 {
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      color: var(--sky);
+      margin-bottom: 0.85rem;
+    }
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+    }
+
+    .toggle-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ================= BOTTOM TAB NAVIGATION ================= */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 440px;
+      height: var(--nav-height);
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border-subtle);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 40;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .bottom-tab {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.18s ease;
+    }
+
+    .bottom-tab svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .bottom-tab.active {
+      color: var(--sky);
+    }
+
+    .bottom-tab.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 28px;
+      height: 3px;
+      border-radius: 0 0 4px 4px;
+      background: var(--sky);
+    }
+
+    .tab-badge-dot {
+      position: absolute;
+      top: 9px;
+      right: calc(50% - 16px);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ================= MODALS & TOAST ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 100;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 390px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.65rem 1.35rem;
+      text-align: center;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin: 0 auto 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .modal-icon.amber { background: rgba(245, 158, 11, 0.16); color: #fbbf24; }
+    .modal-icon.red { background: rgba(239, 68, 68, 0.16); color: #f87171; }
+
+    .modal-highlight {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin: 0.5rem 0;
+    }
+
+    .modal-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .clearance-paper {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 12px;
+      padding: 1.15rem;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+
+    .clearance-paper-head {
+      text-align: center;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .clearance-paper-head span {
+      display: block;
+      font-size: 0.65rem;
+      color: #475569;
+    }
+
+    .clearance-paper-head strong {
+      display: block;
+      font-size: 0.8rem;
+    }
+
+    .clearance-paper-head h4 {
+      color: #0284c7;
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+    }
+
+    .clearance-paper-body p {
+      font-size: 0.78rem;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
+    }
+
+    .mobile-toast {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 2rem);
+      max-width: 400px;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #f8fafc;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+      z-index: 120;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-frame">
+    <!-- ================= MOBILE AUTH VIEW ================= -->
+    <div id="mobile-auth-view" class="mobile-auth-screen">
+      <div>
+        <div class="auth-hero">
+          <div class="logo-badge">
+            <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="#F8FAFC" stroke-width="5.2" stroke-linecap="round"/>
+              <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="#38BDF8" stroke-width="5.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h1>E-BARYO</h1>
+          <span class="sub-en">DIGITAL CONNECTIVITY</span>
+          <span class="sub-brgy">Barangay Digital Mobile App</span>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-tabs" role="tablist">
+            <button type="button" id="m-tab-login" class="auth-tab active">Resident Login</button>
+            <button type="button" id="m-tab-register" class="auth-tab">Register</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="m-login-form" class="form-stack">
+            <div class="form-group">
+              <label for="m-login-id">Barangay Resident ID / Email</label>
+              <div class="input-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <circle cx="8" cy="11" r="2"/>
+                  <path d="M14 10h4M14 14h4"/>
+                </svg>
+                <input type="text" id="m-login-id" value="BL-2026-8849" placeholder="Enter Resident ID" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="m-login-password">Password</label>
+              <div class="input-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <input type="password" id="m-login-password" value="••••••••••••" placeholder="Password" required />
+              </div>
+            </div>
+
+            <div class="auth-meta-row">
+              <label class="checkbox-label">
+                <input type="checkbox" checked />
+                <span>Remember me</span>
+              </label>
+              <a href="#" id="m-forgot-link" class="text-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              <span>LOG IN TO APP</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </form>
+
+<!-- Register Form -->
+          <form id="m-register-form" class="form-stack hidden">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="m-reg-fname">First Name *</label>
+                <input type="text" id="m-reg-fname" placeholder="First Name" required />
+              </div>
+              <div class="form-group">
+                <label for="m-reg-midname">Middle Name</label>
+                <input type="text" id="m-reg-midname" placeholder="Middle Name" />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="m-reg-lname">Last Name *</label>
+                <input type="text" id="m-reg-lname" placeholder="Last Name" required />
+              </div>
+              <div class="form-group">
+                <label for="m-reg-suffixname">Suffix (Optional)</label>
+                <input type="text" id="m-reg-suffixname" placeholder="e.g., Jr., Sr., III" />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="m-reg-age">Age *</label>
+                <input type="number" id="m-reg-age" min="1" max="120" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);" placeholder="e.g. 24" required />
+              </div>
+              <div class="form-group">
+                <label for="m-reg-mobile">Mobile Number *</label>
+                <input type="tel" id="m-reg-mobile" placeholder="0917-000-0000" minlength="11" maxlength="11" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"  required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Gender *</label>
+              <div class="gender-grid">
+                <button type="button" class="gender-btn" data-gender="Male">&#9794; Male</button>
+                <button type="button" class="gender-btn active" data-gender="Female">&#9792; Female</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="m-reg-password">Create Password *</label>
+              <input type="password" id="m-reg-password" minlength="8" placeholder="At least 8 characters" required />
+            </div>
+
+            <button type="submit" class="btn btn-emerald btn-full">
+              COMPLETE REGISTRATION
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <p class="auth-footer-note">Barangay, Cagayan de Oro City &bull; 24/7 Self-Service</p>
+    </div>
+
+    <!-- ================= MOBILE PORTAL SHELL ================= -->
+    <div id="mobile-portal-view" class="mobile-portal-view hidden">
+      <!-- Sticky Top App Bar -->
+      <header class="top-app-bar">
+        <div class="top-bar-brand">
+          <div class="logo-badge mini">
+            <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.5 9.5C24.5 8.5 22.3 8 20 8C12.3 8 6 14.3 6 22C6 29.7 12.3 36 20 36C27.7 36 34 29.7 34 22C34 19.6 33.4 17.4 32.3 15.4" stroke="#F8FAFC" stroke-width="5.5" stroke-linecap="round"/>
+              <path d="M37.5 34.5C39.5 35.5 41.7 36 44 36C51.7 36 58 29.7 58 22C58 14.3 51.7 8 44 8C36.3 8 30 14.3 30 22C30 24.4 30.6 26.6 31.7 28.6" stroke="#38BDF8" stroke-width="5.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <strong>E-BARYO</strong>
+            <span>BARANGAY </span>
+          </div>
+        </div>
+
+        <div class="top-bar-actions">
+          <span class="verified-pill-mini"><i class="dot"></i> Verified</span>
+          <button type="button" id="m-logout-btn" class="icon-circle-btn" aria-label="Log Out">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Scrollable Screen Area -->
+      <main class="screen-body">
+        <!-- TAB 1: HOME DASHBOARD -->
+        <section id="screen-home" class="tab-screen active">
+          <div class="greeting-block">
+            <span class="eyebrow">MAGANDANG ARAW</span>
+            <h2 id="m-greeting-name">Athea Salinas</h2>
+            <p>Barangay, Cagayan de Oro City</p>
+          </div>
+
+          <!-- Digital Resident ID Card -->
+          <div class="mobile-id-card">
+            <div class="id-card-top">
+              <div class="id-card-agency">
+                <span>REPUBLIC OF THE PHILIPPINES</span>
+                <strong> DIGITAL RESIDENT ID</strong>
+              </div>
+              <span class="id-verified-tag">VERIFIED</span>
+            </div>
+
+            <div class="id-card-main">
+              <div class="id-avatar-box" id="m-card-initials">AS</div>
+              <div class="id-holder-info">
+                <span>RESIDENT FULL NAME</span>
+                <h3 id="m-card-name">ATHEA SALINAS</h3>
+              </div>
+            </div>
+
+            <div class="id-pills-grid">
+              <div class="id-pill-item">
+                <span>Resident ID</span>
+                <strong id="m-card-id">BL-2026-8849</strong>
+              </div>
+              <div class="id-pill-item">
+                <span>Gender</span>
+                <strong id="m-card-gender">Female</strong>
+              </div>
+              <div class="id-pill-item">
+                <span>Age</span>
+                <strong id="m-card-age">24 yrs old</strong>
+              </div>
+              <div class="id-pill-item">
+                <span>Civil Status</span>
+                <strong>Single</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI Strip -->
+          <div class="mobile-kpi-strip">
+            <div class="kpi-mini-card">
+              <strong class="text-sky" id="m-kpi-total">2</strong>
+              <span>Total</span>
+            </div>
+            <div class="kpi-mini-card">
+              <strong class="text-emerald" id="m-kpi-ready">1</strong>
+              <span>Ready</span>
+            </div>
+            <div class="kpi-mini-card">
+              <strong class="text-amber" id="m-kpi-queue">1</strong>
+              <span>In Queue</span>
+            </div>
+          </div>
+
+          <!-- Quick Barangay Services -->
+          <div class="section-header-sm">
+            <h4>QUICK SERVICES</h4>
+          </div>
+          <div class="quick-services-stack">
+            <button type="button" class="mobile-service-tile" data-quick-doc="Barangay Clearance">
+              <div class="tile-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <div class="tile-copy">
+                <strong>Barangay Clearance</strong>
+                <span>Employment, business &amp; ID requirements</span>
+              </div>
+              <span class="tile-arrow">&rsaquo;</span>
+            </button>
+          </div>
+
+          <!-- Active Requests Preview -->
+          <div class="section-header-sm">
+            <h4>MY ACTIVE REQUESTS</h4>
+            <button type="button" data-switch-tab="requests">See All &rarr;</button>
+          </div>
+          <div id="m-dashboard-requests" class="request-list-stack"></div>
+        </section>
+
+        <!-- TAB 2: REQUEST DOCUMENT -->
+        <section id="screen-request" class="tab-screen">
+          <div class="screen-title-bar">
+            <h2>Request Document</h2>
+            <p>Submit official application to Barangay Secretarian</p>
+          </div>
+
+          <form id="m-request-form" class="mobile-form-card">
+            <div class="form-group">
+              <label for="m-doc-type">1. DOCUMENT TYPE *</label>
+              <select id="m-doc-type" required>
+                <option value="Barangay Clearance">Barangay Clearance</option>
+              </select>
+            </div>
+
+            <div class="info-banner-sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <div>
+                <strong>Requirements Info:</strong> Valid Government ID or Resident Card verification required. Est. processing: 1–2 hours.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="m-doc-purpose">2. PURPOSE OF REQUEST *</label>
+              <select id="m-doc-purpose" required>
+                <option value="Local Employment Application">Local Employment Application</option>
+                <option value="Government ID Application">Government ID Application</option>
+                <option value="Bank Account / Financial Requirement">Bank Account / Financial Requirement</option>
+                <option value="School / Scholarship Requirement">School / Scholarship Requirement</option>
+                <option value="Other Official Purpose">Other Official Purpose</option>
+              </select>
+            </div>
+
+            <!-- 3. Conditional Remarks -->
+            <div id="m-remarks-group" class="form-group popup-box hidden">
+              <label for="m-doc-remarks">3. ADDITIONAL REMARKS / DETAILS *</label>
+              <textarea id="m-doc-remarks" rows="3" placeholder="Specify employer name, school, agency, or specific purpose..."></textarea>
+            </div>
+
+            <!-- 4. Pickup Mode -->
+            <div class="form-group">
+              <label for="m-doc-pickup">4. PICKUP / FULFILLMENT MODE</label>
+              <select id="m-doc-pickup" required>
+                <option value="On-Site Barangay Hall Pickup">On-Site Barangay Hall Pickup</option>
+                <option value="Digital PDF & On-Site Pickup">Digital PDF &amp; On-Site Pickup</option>
+              </select>
+            </div>
+
+            <!-- 5. File Attachment -->
+            <div class="form-group">
+              <label>5. UPLOAD REQUIREMENT ATTACHMENT</label>
+              <div id="m-upload-zone" class="mobile-upload-zone" role="button" tabindex="0">
+                <input type="file" id="m-file-input" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" multiple hidden />
+                <div class="upload-circle-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+                <p>Tap to upload ID or requirement photo</p>
+                <span>JPG, PNG, PDF, DOCX (Max 10MB)</span>
+                <span class="verified-id-line">&#10003; Verified ID on file (BL-2026-8849)</span>
+              </div>
+              <div id="m-attached-files" class="attached-files-stack"></div>
+            </div>
+
+            <button type="submit" class="btn btn-emerald btn-full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span>SUBMIT REQUEST</span>
+            </button>
+          </form>
+
+        </section>
+
+        <!-- TAB 3: MY REQUESTS TRACKER -->
+        <section id="screen-requests" class="tab-screen">
+          <div class="screen-title-bar">
+            <h2>My Requests</h2>
+            <p>Live status tracker of your barangay applications</p>
+          </div>
+
+          <div class="filter-scroll-row">
+            <button type="button" class="chip-filter active" data-filter="all">All (<span id="m-count-all">2</span>)</button>
+            <button type="button" class="chip-filter" data-filter="processing">Processing (<span id="m-count-proc">1</span>)</button>
+            <button type="button" class="chip-filter" data-filter="ready">Ready (<span id="m-count-ready">1</span>)</button>
+          </div>
+
+          <div id="m-tracker-list"></div>
+        </section>
+
+        <!-- TAB 4: PROFILE & SETTINGS -->
+        <section id="screen-profile" class="tab-screen">
+          <div class="screen-title-bar">
+            <h2>Resident Profile</h2>
+            <p>Manage personal details and mobile notifications</p>
+          </div>
+
+          <div class="profile-banner-card">
+            <div class="avatar-lg" id="m-prof-initials">AS</div>
+            <div>
+              <h3 id="m-prof-display-name">Athea Salinas</h3>
+              <span class="req-id-tag" id="m-prof-display-id">BL-2026-8849</span>
+              <span class="verified-pill-mini" style="margin-top: 4px;"><i class="dot"></i> Verified Resident</span>
+            </div>
+          </div>
+
+          <form id="m-profile-form" class="mobile-form-card">
+            <div class="form-group">
+              <label for="m-prof-name">Full Name</label>
+              <input type="text" id="m-prof-name" value="Athea Salinas" required />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="m-prof-gender">Gender</label>
+                <select id="m-prof-gender">
+                  <option value="Female" selected>Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="m-prof-age">Age</label>
+                <input type="number" id="m-prof-age" value="24" min="1" max="120" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="m-prof-phone">Contact Phone Number</label>
+              <input type="tel" id="m-prof-phone" value="0917-882-9102" minlength="11" maxlength="11" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);" required />
+            </div>
+
+            <div class="form-group">
+              
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Save Profile Changes</button>
+          </form>
+
+          <div class="notif-card">
+            <h4>MOBILE NOTIFICATIONS</h4>
+            <label class="toggle-item">
+              <span>SMS Status Alerts</span>
+              <input type="checkbox" checked />
+            </label>
+            <label class="toggle-item">
+              <span>Email PDF Receipts</span>
+              <input type="checkbox" checked />
+            </label>
+            <label class="toggle-item">
+              <span>Pickup Reminders</span>
+              <input type="checkbox" checked />
+            </label>
+          </div>
+        </section>
+      </main>
+
+      <!-- Bottom App Tab Bar -->
+      <nav class="bottom-nav" aria-label="Bottom Navigation">
+        <button type="button" class="bottom-tab active" data-tab="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Home</span>
+        </button>
+
+        <button type="button" class="bottom-tab" data-tab="request">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="11" x2="12" y2="17"/>
+            <line x1="9" y1="14" x2="15" y2="14"/>
+          </svg>
+          <span>Request</span>
+        </button>
+
+        <button type="button" class="bottom-tab" data-tab="requests">
+          <span class="tab-badge-dot" id="m-nav-badge">2</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>Tracker</span>
+        </button>
+
+        <button type="button" class="bottom-tab" data-tab="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ================= MODALS & TOAST ================= -->
+  <!-- Registration Approval Modal -->
+  <div id="m-approval-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-icon amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3>Registration Submitted</h3>
+      <p class="modal-highlight">"Wait for the approval, upon checking"</p>
+      <p class="modal-desc">Your resident details have been sent to Barangay Secretarian for verification.</p>
+      <button type="button" id="m-close-approval" class="btn btn-primary btn-full">Got It</button>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="m-logout-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-icon red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
+      <h3>Log Out?</h3>
+      <p class="modal-desc">Are you sure you want to end your E-BARYO Mobile session?</p>
+      <div class="modal-btn-grid">
+        <button type="button" id="m-cancel-logout" class="btn btn-ghost">Cancel</button>
+        <button type="button" id="m-confirm-logout" class="btn btn-danger">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- E-Clearance Preview Modal -->
+  <div id="m-clearance-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="clearance-paper">
+        <div class="clearance-paper-head">
+          <span>REPUBLIC OF THE PHILIPPINES</span>
+          <strong>BARANGAY, CAGAYAN DE ORO</strong>
+          <h4>ELECTRONIC BARANGAY CLEARANCE</h4>
+        </div>
+        <div class="clearance-paper-body" id="m-clearance-body"></div>
+      </div>
+      <div class="modal-btn-grid">
+        <button type="button" id="m-close-clearance" class="btn btn-ghost">Close</button>
+        <button type="button" id="m-print-clearance" class="btn btn-emerald">Save / Print</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Toast -->
+  <div id="m-toast" class="mobile-toast hidden"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // ================= APP STATE =================
+      const state = {
+        resident: {
+    fname: "Athea",
+    midname: "",
+    lname: "Salinas",
+    suffix: "",
+    name: "Athea Salinas",
+    id: "BL-2026-8849",
+    gender: "Female",
+    age: 24,
+    phone: "0917-882-9102",
+        },
+        selectedGender: "Female",
+        attachedFiles: [],
+        filter: "all",
+        requests: [
+          {
+            id: "BL-REQ-9901",
+            date: "Nov 23, 2026 • 10:15 AM",
+            type: "Barangay Clearance",
+            purpose: "Local Employment Application",
+            pickup: "Digital PDF & On-Site Pickup",
+            status: "ready",
+            statusLabel: "Ready for Pickup",
+            step: 4
+          },
+         
+        ]
+      };
+
+      // ================= ELEMENTS =================
+      const authView = document.getElementById("mobile-auth-view");
+      const portalView = document.getElementById("mobile-portal-view");
+      const tabLogin = document.getElementById("m-tab-login");
+      const tabRegister = document.getElementById("m-tab-register");
+      const loginForm = document.getElementById("m-login-form");
+      const registerForm = document.getElementById("m-register-form");
+      const approvalModal = document.getElementById("m-approval-modal");
+      const logoutModal = document.getElementById("m-logout-modal");
+      const clearanceModal = document.getElementById("m-clearance-modal");
+
+      function getInitials(name) {
+        return (
+          name
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map((part) => part[0]?.toUpperCase() || "")
+            .join("") || "RS"
+        );
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById("m-toast");
+        toast.textContent = msg;
+        toast.classList.remove("hidden");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.add("hidden"), 3000);
+      }
+
+      function syncResidentUI() {
+  const { fname, midname, lname, suffix, name, id, gender, age, phone } = state.resident;
+
+  // Build full name dynamically if parts exist, fallback to state.resident.name
+  const fullName =
+    [fname, midname, lname, suffix].filter(Boolean).join(" ") || name;
+
+  // Short display name for greeting (First + Last + Suffix)
+  const greetingName =
+    [fname, lname, suffix].filter(Boolean).join(" ") || fullName;
+
+  // Initials from First + Last name (e.g. "Jeo" + "Ong" -> "JO")
+  const initials =
+    fname && lname
+      ? `${fname[0]}${lname[0]}`.toUpperCase()
+      : getInitials(fullName);
+
+  // Dashboard Greeting & Digital ID Card
+  document.getElementById("m-greeting-name").textContent = greetingName;
+  document.getElementById("m-card-initials").textContent = initials;
+  document.getElementById("m-card-name").textContent = fullName.toUpperCase();
+  document.getElementById("m-card-id").textContent = id;
+  document.getElementById("m-card-gender").textContent = gender;
+  document.getElementById("m-card-age").textContent = `${age} yrs old`;
+
+  // Profile Screen
+  document.getElementById("m-prof-initials").textContent = initials;
+  document.getElementById("m-prof-display-name").textContent = fullName;
+  document.getElementById("m-prof-display-id").textContent = id;
+  document.getElementById("m-prof-name").value = fullName;
+  document.getElementById("m-prof-gender").value = gender;
+  document.getElementById("m-prof-age").value = age;
+  document.getElementById("m-prof-phone").value = phone;
+}
+
+      function renderRequests() {
+        const total = state.requests.length;
+        const ready = state.requests.filter((r) => r.status === "ready").length;
+        const proc = state.requests.filter((r) => r.status !== "ready").length;
+
+        document.getElementById("m-kpi-total").textContent = total;
+        document.getElementById("m-kpi-ready").textContent = ready;
+        document.getElementById("m-kpi-queue").textContent = proc;
+        document.getElementById("m-nav-badge").textContent = total;
+        document.getElementById("m-count-all").textContent = total;
+        document.getElementById("m-count-proc").textContent = proc;
+        document.getElementById("m-count-ready").textContent = ready;
+
+        // Home active requests preview
+        document.getElementById("m-dashboard-requests").innerHTML = state.requests
+          .map(
+            (req) => `
+            <div class="mobile-req-card">
+              <div>
+                <span class="req-id-tag">${req.id}</span>
+                <h4>${req.type}</h4>
+                <p>${req.purpose}</p>
+              </div>
+              <span class="badge-pill ${req.status === "ready" ? "ready" : "queue"}">
+                ${req.statusLabel}
+              </span>
+            </div>
+          `
+          )
+          .join("");
+
+        // Full tracker screen
+        const filtered = state.requests.filter((req) => {
+          if (state.filter === "ready") return req.status === "ready";
+          if (state.filter === "processing") return req.status !== "ready";
+          return true;
+        });
+
+        document.getElementById("m-tracker-list").innerHTML = filtered
+          .map((req) => {
+            const steps = ["Submitted", "Verified", "Processing", "Ready"];
+            const stepsHtml = steps
+              .map(
+                (label, i) => `
+                <div class="prog-step ${i + 1 <= req.step ? "done" : ""}">
+                  <div class="prog-bar"></div>
+                  <span>${label}</span>
+                </div>
+              `
+              )
+              .join("");
+
+            const rightControl =
+              req.status === "ready"
+                ? `<button type="button" class="btn btn-emerald m-view-clearance" style="padding:0.45rem 0.75rem;font-size:0.74rem;" data-id="${req.id}">E-Clearance</button>`
+                : `<span class="badge-pill queue">${req.statusLabel}</span>`;
+
+            return `
+              <div class="mobile-tracker-card">
+                <div class="tracker-card-head">
+                  <div>
+                    <span class="req-id-tag">${req.id} &bull; ${req.date}</span>
+                    <h3>${req.type}</h3>
+                    <p>${req.purpose}</p>
+                  </div>
+                  ${rightControl}
+                </div>
+                <div class="progress-grid-4">${stepsHtml}</div>
+                <div class="tracker-card-foot">
+                  <span>Mode: <strong>${req.pickup}</strong></span>
+                  <span>Status: <strong>${req.statusLabel}</strong></span>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        document.querySelectorAll(".m-view-clearance").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const req = state.requests.find((r) => r.id === btn.dataset.id);
+            if (!req) return;
+            document.getElementById("m-clearance-body").innerHTML = `
+              <p><strong>Tracking No.:</strong> ${req.id}</p>
+              <p><strong>Document:</strong> ${req.type}</p>
+              <p><strong>Resident:</strong> ${state.resident.name} (${state.resident.id})</p>
+              <p><strong>Age / Gender:</strong> ${state.resident.age} yrs / ${state.resident.gender}</p>
+              <p><strong>Purpose:</strong> ${req.purpose}</p>
+              <p>Certified bonafide resident of Barangay, Cagayan de Oro City with no derogatory record.</p>
+            `;
+            clearanceModal.classList.remove("hidden");
+          });
+        });
+      }
+
+      function switchTab(tabKey) {
+        document.querySelectorAll(".tab-screen").forEach((sec) => {
+          sec.classList.toggle("active", sec.id === `screen-${tabKey}`);
+        });
+        document.querySelectorAll(".bottom-tab").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.tab === tabKey);
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // ================= AUTH HANDLERS =================
+      tabLogin.addEventListener("click", () => {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+      });
+
+      tabRegister.addEventListener("click", () => {
+        tabRegister.classList.add("active");
+        tabLogin.classList.remove("active");
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+      });
+
+      document.querySelectorAll(".gender-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".gender-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          state.selectedGender = btn.dataset.gender;
+        });
+      });
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const enteredId = document.getElementById("m-login-id").value.trim();
+        if (enteredId && !enteredId.includes("@")) {
+          state.resident.id = enteredId;
+        }
+        syncResidentUI();
+        renderRequests();
+        authView.classList.add("hidden");
+        portalView.classList.remove("hidden");
+        switchTab("home");
+      });
+
+      registerForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const fname = document.getElementById("m-reg-fname").value.trim();
+  const midname = document.getElementById("m-reg-midname")?.value.trim() || "";
+  const lname = document.getElementById("m-reg-lname").value.trim();
+  const suffix = document.getElementById("m-reg-suffixname")?.value.trim() || "";
+  const age = parseInt(document.getElementById("m-reg-age").value, 10) || 18;
+  const mobile = document.getElementById("m-reg-mobile").value.trim();
+
+  // Save parts + formatted full name
+  state.resident.fname = fname;
+  state.resident.midname = midname;
+  state.resident.lname = lname;
+  state.resident.suffix = suffix;
+  state.resident.name = [fname, midname, lname, suffix].filter(Boolean).join(" ");
+  state.resident.age = age;
+  state.resident.gender = state.selectedGender;
+  state.resident.phone = mobile;
+
+  approvalModal.classList.remove("hidden");
+});
+
+      document.getElementById("m-close-approval").addEventListener("click", () => {
+        approvalModal.classList.add("hidden");
+        registerForm.reset();
+        tabLogin.click();
+      });
+
+      document.getElementById("m-forgot-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        showToast("Password reset code sent to your mobile number.");
+      });
+
+      // ================= NAVIGATION & LOGOUT =================
+      document.querySelectorAll(".bottom-tab").forEach((btn) => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+      });
+
+      document.querySelectorAll("[data-switch-tab]").forEach((btn) => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.switchTab));
+      });
+
+      document.querySelectorAll("[data-quick-doc]").forEach((tile) => {
+        tile.addEventListener("click", () => {
+          const docSelect = document.getElementById("m-doc-type");
+          if (docSelect) {
+            const val = tile.dataset.quickDoc;
+            const exists = Array.from(docSelect.options).some((opt) => opt.value === val);
+            docSelect.value = exists ? val : "Barangay Clearance";
+          }
+          switchTab("request");
+        });
+      });
+
+      document.getElementById("m-logout-btn").addEventListener("click", () => {
+        logoutModal.classList.remove("hidden");
+      });
+
+      document.getElementById("m-cancel-logout").addEventListener("click", () => {
+        logoutModal.classList.add("hidden");
+      });
+
+      document.getElementById("m-confirm-logout").addEventListener("click", () => {
+        logoutModal.classList.add("hidden");
+        portalView.classList.add("hidden");
+        authView.classList.remove("hidden");
+        showToast("Logged out of E-BARYO Mobile.");
+      });
+
+      // ================= REQUEST FORM & UPLOAD =================
+      const purposeSelect = document.getElementById("m-doc-purpose");
+      const remarksGroup = document.getElementById("m-remarks-group");
+      const remarksInput = document.getElementById("m-doc-remarks");
+
+      purposeSelect.addEventListener("change", () => {
+        const isOther = purposeSelect.value === "Other Official Purpose";
+        remarksGroup.classList.toggle("hidden", !isOther);
+        remarksInput.required = isOther;
+        if (isOther) {
+          remarksInput.focus();
+        } else {
+          remarksInput.value = "";
+        }
+      });
+
+      const uploadZone = document.getElementById("m-upload-zone");
+      const fileInput = document.getElementById("m-file-input");
+      const attachedList = document.getElementById("m-attached-files");
+
+      function renderFiles() {
+        attachedList.innerHTML = state.attachedFiles
+          .map(
+            (f, idx) => `
+            <div class="file-pill-row">
+              <span>${f.name}</span>
+              <button type="button" data-idx="${idx}" aria-label="Remove">&times;</button>
+            </div>
+          `
+          )
+          .join("");
+
+        attachedList.querySelectorAll("button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.attachedFiles.splice(parseInt(btn.dataset.idx, 10), 1);
+            renderFiles();
+          });
+        });
+      }
+
+      uploadZone.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+          Array.from(e.target.files).forEach((f) => state.attachedFiles.push(f));
+          fileInput.value = "";
+          renderFiles();
+        }
+      });
+
+      document.getElementById("m-request-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const docType = document.getElementById("m-doc-type").value;
+        const purpose = purposeSelect.value;
+        const remarks = remarksInput.value.trim();
+        const pickup = document.getElementById("m-doc-pickup").value;
+
+        const finalPurpose =
+          purpose === "Other Official Purpose" && remarks
+            ? `Other Official Purpose (${remarks})`
+            : purpose;
+
+        const num = Math.floor(9902 + Math.random() * 90);
+        state.requests.unshift({
+          id: `BL-REQ-${num}`,
+          date: "Nov 24, 2026 • Just now",
+          type: docType.replace(" (General / Employment / Business)", ""),
+          purpose: finalPurpose,
+          pickup,
+          status: "processing",
+          statusLabel: "In Queue",
+          step: 1
+        });
+
+        state.attachedFiles = [];
+        renderFiles();
+        remarksGroup.classList.add("hidden");
+        remarksInput.required = false;
+        remarksInput.value = "";
+        e.target.reset();
+
+        renderRequests();
+        switchTab("requests");
+        showToast("Request submitted to Barangay!");
+      });
+
+      // ================= FILTER & PROFILE =================
+      document.querySelectorAll(".chip-filter").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll(".chip-filter").forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          state.filter = chip.dataset.filter;
+          renderRequests();
+        });
+      });
+
+      document.getElementById("m-profile-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const updatedName = document.getElementById("m-prof-name").value.trim();
+  state.resident.name = updatedName;
+  // Clear individual parts so fullName falls back to the edited profile name
+  state.resident.fname = "";
+  state.resident.midname = "";
+  state.resident.lname = "";
+  state.resident.suffix = "";
+
+  state.resident.gender = document.getElementById("m-prof-gender").value;
+  state.resident.age = parseInt(document.getElementById("m-prof-age").value, 10) || 18;
+  state.resident.phone = document.getElementById("m-prof-phone").value.trim();
+
+  syncResidentUI();
+  showToast("Profile updated!");
+});
+      document.getElementById("m-close-clearance").addEventListener("click", () => {
+        clearanceModal.classList.add("hidden");
+      });
+
+      document.getElementById("m-print-clearance").addEventListener("click", () => {
+        window.print();
+      });
+
+      // Init
+      syncResidentUI();
+      renderRequests();
+    });
+  </script>
+</body>
+</html>
